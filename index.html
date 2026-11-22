@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Wayfarer</title>
+  <meta name="description" content="Explore the place you just arrived in: sights, cheap cafes, weather, transport, history and events.">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Wayfarer">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <img src="icon.svg" alt="" width="28" height="28">
+      <div>
+        <h1>Wayfarer</h1>
+        <p id="placeLine" class="muted">Where are you right now?</p>
+      </div>
+    </div>
+    <button id="settingsBtn" class="icon-btn" title="Settings" aria-label="Settings">⚙</button>
+  </header>
+
+  <section class="locate">
+    <button id="gpsBtn" class="primary">📍 Use my location</button>
+    <form id="searchForm" class="search">
+      <input id="searchInput" type="search" placeholder="…or type a place (e.g. Fort Kochi)" autocomplete="off">
+      <button type="submit">Go</button>
+    </form>
+    <div id="searchResults" class="results"></div>
+    <div class="quick">
+      Try:
+      <button data-q="Fort Kochi, Kerala">Fort Kochi</button>
+      <button data-q="Lisbon">Lisbon</button>
+      <button data-q="Kyoto">Kyoto</button>
+      <button data-q="Hampi">Hampi</button>
+    </div>
+  </section>
+
+  <nav id="tabs" class="tabs" hidden>
+    <a href="#weather">Weather</a>
+    <a href="#sights">Sights</a>
+    <a href="#cafes">Cafés</a>
+    <a href="#transport">Transport</a>
+    <a href="#history">History</a>
+    <a href="#events">Events</a>
+  </nav>
+
+  <main id="main" hidden>
+    <div id="map" class="map"></div>
+
+    <section id="weather" class="card">
+      <h2>Weather</h2>
+      <div class="body"></div>
+    </section>
+
+    <section id="history" class="card">
+      <h2>About this place</h2>
+      <div class="body"></div>
+    </section>
+
+    <section id="sights" class="card">
+      <h2>Nearby attractions</h2>
+      <div class="body"></div>
+    </section>
+
+    <section id="cafes" class="card">
+      <h2>Cafés <span class="sub">independents first</span></h2>
+      <div class="body"></div>
+    </section>
+
+    <section id="transport" class="card">
+      <h2>Getting around</h2>
+      <div class="body"></div>
+    </section>
+
+    <section id="events" class="card">
+      <h2>Events &amp; nightlife</h2>
+      <div class="body"></div>
+    </section>
+
+    <footer class="credits muted">
+      Data: © OpenStreetMap contributors (ODbL) · Open-Meteo (CC BY 4.0) · Wikipedia (CC BY-SA) · Wikidata (CC0) · Nominatim
+    </footer>
+  </main>
+
+  <dialog id="settings">
+    <form method="dialog">
+      <h2>Settings</h2>
+      <label>Search radius for sights
+        <select id="radiusSel">
+          <option value="2000">2 km</option>
+          <option value="5000" selected>5 km</option>
+          <option value="10000">10 km</option>
+        </select>
+      </label>
+      <label>Ticketmaster API key (optional, free tier — enables live events)
+        <input id="tmKey" type="text" placeholder="paste key" autocomplete="off">
+      </label>
+      <p class="muted small">Keys are kept only in this browser (localStorage).</p>
+      <menu><button value="save" class="primary">Save</button></menu>
+    </form>
+  </dialog>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
