@@ -4,110 +4,130 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Wayfarer</title>
-  <meta name="description" content="Explore the place you just arrived in: sights, cheap cafes, weather, transport, history and events.">
+  <meta name="description" content="Explore the place you just arrived in: sights, cheap eats, weather, public transport, history and events.">
   <meta name="theme-color" content="#0f766e">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Wayfarer">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="app" id="app">
   <header class="top">
-    <div class="brand">
-      <img src="icon.svg" alt="" width="28" height="28">
-      <div>
-        <h1>Wayfarer</h1>
-        <p id="placeLine" class="muted">Where are you right now?</p>
-      </div>
-    </div>
-    <button id="settingsBtn" class="icon-btn" title="Settings" aria-label="Settings">⚙</button>
+    <button id="placeBtn" class="place-btn" aria-label="Change location">
+      <img src="icon.svg" alt="" width="30" height="30">
+      <span class="place-text">
+        <span id="placeName" class="place-name">Wayfarer</span>
+        <span id="placeSub" class="place-sub">Tap to set your location</span>
+      </span>
+      <span class="chev">▾</span>
+    </button>
+    <button id="gpsTop" class="icon-btn" aria-label="Use my location" title="Use my location">◎</button>
   </header>
 
-  <section class="locate">
-    <button id="gpsBtn" class="primary">📍 Use my location</button>
-    <form id="searchForm" class="search">
-      <input id="searchInput" type="search" placeholder="…or type a place (e.g. Fort Kochi)" autocomplete="off">
-      <button type="submit">Go</button>
-    </form>
-    <div id="searchResults" class="results"></div>
-    <div class="quick">
-      Try:
-      <button data-q="Fort Kochi, Kerala">Fort Kochi</button>
-      <button data-q="Lisbon">Lisbon</button>
-      <button data-q="Kyoto">Kyoto</button>
-      <button data-q="Hampi">Hampi</button>
-    </div>
-  </section>
-
-  <nav id="tabs" class="tabs" hidden>
-    <a href="#weather">Weather</a>
-    <a href="#sights">Sights</a>
-    <a href="#cafes">Cafés</a>
-    <a href="#transport">Transport</a>
-    <a href="#history">History</a>
-    <a href="#events">Events</a>
-  </nav>
-
-  <main id="main" hidden>
-    <div id="map" class="map"></div>
-
-    <section id="weather" class="card">
-      <h2>Weather</h2>
-      <div class="body"></div>
+  <main id="view">
+    <!-- Welcome (no location yet) -->
+    <section class="screen active" data-tab="welcome">
+      <div class="welcome">
+        <img src="icon-192.png" alt="" width="84" height="84" class="welcome-logo">
+        <h1>Just landed?</h1>
+        <p class="muted">See what's around you: sights, cheap eats, public transport, weather, history and tonight's events.</p>
+        <button class="primary big gps-btn">📍 Use my location</button>
+        <form class="search search-form">
+          <input type="search" placeholder="…or search a place" autocomplete="off">
+          <button type="submit">Go</button>
+        </form>
+        <div class="search-results"></div>
+        <div class="quick">
+          <button data-q="Fort Kochi, Kerala">Fort Kochi</button>
+          <button data-q="Munnar">Munnar</button>
+          <button data-q="Hampi">Hampi</button>
+          <button data-q="Lisbon">Lisbon</button>
+          <button data-q="Kyoto">Kyoto</button>
+        </div>
+      </div>
     </section>
 
-    <section id="history" class="card">
-      <h2>About this place</h2>
-      <div class="body"></div>
+    <section class="screen" data-tab="today">
+      <div id="weatherBox"></div>
+      <div id="glance"></div>
+      <div id="aboutBox"></div>
     </section>
 
-    <section id="sights" class="card">
-      <h2>Nearby attractions</h2>
-      <div class="body"></div>
+    <section class="screen" data-tab="see">
+      <div class="screen-head"><h2>Things to see</h2><button class="map-toggle" data-map="see">🗺 Map</button></div>
+      <div class="map-slot" data-slot="see"></div>
+      <div class="chips" id="seeChips"></div>
+      <div id="seeList"></div>
+      <div id="storiesBox"></div>
     </section>
 
-    <section id="cafes" class="card">
-      <h2>Cafés <span class="sub">independents first</span></h2>
-      <div class="body"></div>
+    <section class="screen" data-tab="eat">
+      <div class="screen-head"><h2>Eat &amp; drink</h2><button class="map-toggle" data-map="eat">🗺 Map</button></div>
+      <div class="map-slot" data-slot="eat"></div>
+      <div class="filters" id="eatFilters"></div>
+      <div id="eatList"></div>
     </section>
 
-    <section id="transport" class="card">
-      <h2>Getting around</h2>
-      <div class="body"></div>
+    <section class="screen" data-tab="go">
+      <div class="screen-head"><h2>Getting around</h2><button class="map-toggle" data-map="go">🗺 Map</button></div>
+      <div class="map-slot" data-slot="go"></div>
+      <div id="tripBox"></div>
+      <div id="goList"></div>
     </section>
 
-    <section id="events" class="card">
-      <h2>Events &amp; nightlife</h2>
-      <div class="body"></div>
+    <section class="screen" data-tab="events">
+      <div class="screen-head"><h2>Events &amp; nightlife</h2></div>
+      <div id="eventsBox"></div>
     </section>
 
-    <footer class="credits muted">
-      Data: © OpenStreetMap contributors (ODbL) · Open-Meteo (CC BY 4.0) · Wikipedia (CC BY-SA) · Wikidata (CC0) · Nominatim
-    </footer>
+    <footer class="credits">Data © OpenStreetMap contributors · Open-Meteo · Wikipedia · Wikimedia Commons · Wikidata</footer>
   </main>
 
-  <dialog id="settings">
-    <form method="dialog">
-      <h2>Settings</h2>
-      <label>Search radius for sights
-        <select id="radiusSel">
-          <option value="2000">2 km</option>
-          <option value="5000" selected>5 km</option>
-          <option value="10000">10 km</option>
-        </select>
-      </label>
-      <label>Ticketmaster API key (optional, free tier — enables live events)
-        <input id="tmKey" type="text" placeholder="paste key" autocomplete="off">
-      </label>
-      <p class="muted small">Keys are kept only in this browser (localStorage).</p>
-      <menu><button value="save" class="primary">Save</button></menu>
-    </form>
-  </dialog>
+  <nav class="bottom" id="bottomNav" hidden>
+    <button data-tab="today" class="active"><span>☀️</span>Today</button>
+    <button data-tab="see"><span>🏛️</span>See</button>
+    <button data-tab="eat"><span>🍽️</span>Eat</button>
+    <button data-tab="go"><span>🚌</span>Go</button>
+    <button data-tab="events"><span>🎉</span>Events</button>
+  </nav>
+</div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script src="app.js"></script>
+<!-- Location & settings sheet -->
+<dialog id="locSheet" class="sheet">
+  <div class="sheet-grip"></div>
+  <h2>Where are you?</h2>
+  <button class="primary big gps-btn">📍 Use my location</button>
+  <form class="search search-form">
+    <input type="search" placeholder="Search a place" autocomplete="off">
+    <button type="submit">Go</button>
+  </form>
+  <div class="search-results"></div>
+  <details class="settings">
+    <summary>Settings</summary>
+    <label>Sights radius
+      <select id="radiusSel"><option value="2000">2 km</option><option value="5000">5 km</option><option value="10000">10 km</option></select>
+    </label>
+    <label>Ticketmaster API key (optional, free — live events, mostly US/EU)
+      <input id="tmKey" type="text" placeholder="paste key" autocomplete="off">
+    </label>
+    <p class="small muted">Stored only on this device.</p>
+  </details>
+  <form method="dialog"><button class="close-btn">Close</button></form>
+</dialog>
+
+<!-- Place detail sheet -->
+<dialog id="detailSheet" class="sheet">
+  <div class="sheet-grip"></div>
+  <div id="detailBody"></div>
+  <form method="dialog"><button class="close-btn">Close</button></form>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

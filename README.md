@@ -58,10 +58,14 @@ Move to a native wrapper (Capacitor) only if background "you've arrived" alerts 
 | Location (GPS and search) | ✅ Real: browser geolocation and Nominatim |
 | Weather and tips | ✅ Real: Open-Meteo |
 | Sights | ✅ Real: OSM (Overpass, falling back to Photon) |
-| Cafés list | ✅ Real: OSM |
-| Café "budget" label | ⚠️ Heuristic (independent, tea/bakery, or local cuisine). OSM has no prices. |
-| Café reviews | ⚠️ Links only: Google Maps, plus a Google search in the local language. No ratings shown. |
-| Transport stops and stations | ✅ Real: OSM. ⚠️ No timetables, fares or live arrivals. |
+| Layout | Phone-first app with bottom tabs (Today, See, Eat, Go, Events). Shown as a 9:16 frame on wide screens. |
+| Photos | ✅ Real where available: Wikidata image, Wikipedia thumbnail, or a Wikimedia Commons photo matched by name. Most cafés have no free photo, so they get an illustrated tile. |
+| Eat list (cafés, restaurants, quick bites, bakeries) | ✅ Real: OSM, with full tags from the OSM API |
+| Eat filters: type, cuisine, mood | ✅ Mood comes from map tags: Wi-Fi, outdoor seating, veg, open late, local cuisine. ⚠️ "Budget" is a heuristic. OSM has no prices. |
+| Ratings and reviews | ⚠️ The "⭐ 4+" filter is disabled until a paid reviews API is added. Review buttons link out to Google Maps and a Malayalam review search. |
+| Transit: stops and stations | ✅ Real: OSM. Public transport is listed first, with auto stands under "last mile". |
+| Transit: routes per stop | ✅ Real: OSM route relations (e.g. 31 bus routes at Kunnumpuram, Fort Kochi) |
+| Trip planner | ✅ Opens Google Maps public-transport directions from where you are. ⚠️ No live arrivals or timetables in the app itself. |
 | History and facts | ✅ Real: Wikipedia, Wikidata, and the local-language Wikipedia (Malayalam tested on Kochi) |
 | Event venues (nightlife, arts, theatres, coworking) | ✅ Real: OSM |
 | Dated events (workshops, parties) | ⚠️ Link-outs (AllEvents, Meetup, Eventbrite, BookMyShow, District). Live only with a free Ticketmaster key, mostly useful outside India. |

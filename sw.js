@@ -1,5 +1,5 @@
 // App-shell cache so the UI opens offline; API data is always fetched live.
-const CACHE = 'wayfarer-v2';
+const CACHE = 'wayfarer-v3';
 const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'icon.svg', 'icon-192.png', 'icon-512.png', 'manifest.json'];
 self.addEventListener('install', (e) => e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL))));
 self.addEventListener('activate', (e) => e.waitUntil(
